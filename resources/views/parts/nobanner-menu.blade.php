@@ -1,4 +1,5 @@
     <!-- Hero Section Begin -->
+ 
     <section class="hero hero-normal">
         <div class="container">
             <div class="row">
@@ -9,17 +10,12 @@
                             <span>All departments</span>
                         </div>
                         <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
+                            {{-- @if ($categories)
+                                @foreach ($categories as $category)
+                                <li><a href="#">Fresh Meat</a></li>
+                                @endforeach
+                            @endif --}}
+                           
                         </ul>
                     </div>
                 </div>

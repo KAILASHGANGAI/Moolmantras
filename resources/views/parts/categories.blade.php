@@ -3,17 +3,10 @@
     <div class="container">
         <div class="row">
             <div class="categories__slider owl-carousel">
-                <?php 
-                         $collection = collect([
-                                (object)['id'=>1, 'img' => 'assets/images/categories/cat-1.jpg', 'title' => 'Product 1'],
-                                (object)['id'=>1, 'img' => 'assets/images/categories/cat-1.jpg', 'title' => 'Product 2' ],
-                                (object)['id'=>1, 'img' => 'assets/images/categories/cat-1.jpg', 'title' => 'Product 3'],
-                                // Add more products as needed
-                            ]);
-                    ?>
-                @foreach ($collection as $item)
+                
+                @foreach ($categories as $item)
                 <div class="col-lg-3">
-                    <x-category-card :id="$item->id" :title="$item->title" :img="$item->img"/>
+                    <x-category-card :id="$item->slug" :title="$item->category_name" :img="$item->image"/>
                 </div>
                 @endforeach
                 

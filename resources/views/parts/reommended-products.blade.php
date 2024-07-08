@@ -5,21 +5,15 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="latest-product__text">
                         <h4>Latest Products</h4>
-                        <?php
-                        $LatestProducts = collect([
-                            (object) ['id' => 1, 'img' => 'assets/images/latest-product/lp-1.jpg', 'title' => 'Product 1', 'price' => '$100'], 
-                            (object) ['id' => 2, 'img' => 'assets/images/latest-product/lp-1.jpg', 'title' => 'Product 1', 'price' => '$100'], (object) ['id' => 1, 'img' => 'assets/images/latest-product/lp-1.jpg', 'title' => 'Product 1', 'price' => '$100'], 
-                            (object) ['id' => 3, 'img' => 'assets/images/latest-product/lp-1.jpg', 'title' => 'Product 1', 'price' => '$100']]);
-                        ?>
-
                         <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item">
-                                @foreach ($LatestProducts->collect() as $item)
-                                    <x-product :id="$item->id" :img="$item->img" :title="$item->title"
-                                        :price="$item->price" />
-                                @endforeach
-
-                            </div>
+                            @foreach ($latestProducts->chunk(4) as $chunk)
+                                <div class="latest-prdouct__slider__item">
+                                    @foreach ($chunk as $item)
+                                        <x-product :id="$item->sku" :img="$item->image" :title="$item->product_name"
+                                            :price="$item->selling_price" />
+                                    @endforeach
+                                </div>
+                            @endforeach
 
                         </div>
                     </div>
@@ -28,12 +22,14 @@
                     <div class="latest-product__text">
                         <h4>Top Rated Products</h4>
                         <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item">
-                                @foreach ($LatestProducts->collect() as $item)
-                                    <x-product :id="$item->id" :img="$item->img" :title="$item->title"
-                                        :price="$item->price" />
-                                @endforeach
-                            </div>
+                            @foreach ($ratedProducts->chunk(4) as $chunk)
+                                <div class="latest-prdouct__slider__item">
+                                    @foreach ($chunk as $item)
+                                        <x-product :id="$item->sku" :img="$item->image" :title="$item->product_name"
+                                            :price="$item->selling_price" />
+                                    @endforeach
+                                </div>
+                            @endforeach
 
                         </div>
                     </div>
@@ -42,14 +38,18 @@
                     <div class="latest-product__text">
                         <h4>Review Products</h4>
                         <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item">
-                                @foreach ($LatestProducts->collect() as $item)
-                                    <x-product :id="$item->id" :img="$item->img" :title="$item->title"
-                                        :price="$item->price" />
-                                @endforeach
-                            </div>
+                            @foreach ($reviewedProducts->chunk(4) as $chunk)
+                                <div class="latest-prdouct__slider__item">
+                                    @foreach ($chunk as $item)
+                                        <x-product :id="$item->sku" :img="$item->image" :title="$item->product_name"
+                                            :price="$item->selling_price" />
+                                    @endforeach
+                                </div>
+                            @endforeach
 
                         </div>
+
+                       
                     </div>
                 </div>
             </div>

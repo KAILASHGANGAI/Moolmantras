@@ -9,6 +9,6 @@
     </div>
     <div class="featured__item__text">
         <h6><a href="{{ route('showProduct',$id) }}">{{ $title }}</a></h6>
-        <h5>{{ $price }}</h5>
+        <h5>Rs. {{ $price }} /-</h5>
     </div>
 </div>

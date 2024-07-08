@@ -1,0 +1,1 @@
+{{-- all collections / category lists --}}

@@ -24,23 +24,16 @@
                     </div>
                 </div>
             </div>
+           
             <div class="row featured__filter">
-                
-                <?php
-                $products = collect([
-                    (object) ['id' => 1, 'img' => 'assets/images/featured/feature-6.jpg', 'title' => 'Product 1', 'price' => '$100'],
-                    (object) ['id' => 1, 'img' => 'assets/images/featured/feature-7.jpg', 'title' => 'Product 2', 'price' => '$200'],
-                    (object) ['id' => 1, 'img' => 'assets/images/featured/feature-8.jpg', 'title' => 'Product 3', 'price' => '$300'],
-                    // Add more products as needed
-                ]);
-                ?>
-                @foreach ($products->collect() as $item)
+                @foreach ($featuredProducts as $item)
                 <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                    <x-ProductCard :id="$item->id" :img="$item->img" :title="$item->title"
-                        :price="$item->price" />
+                    <x-ProductCard :id="$item->sku" :img="$item->image" :title="$item->product_name"
+                        :price="$item->selling_price" />
             
                 </div>
                 @endforeach
+                
             </div>
     </section>
     <!-- Featured Section End -->
