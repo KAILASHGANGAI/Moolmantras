@@ -43,6 +43,12 @@ namespace App\Repositories;
         return $model->find($id);
     }
 
+    public function getSingleData($model,$condition=null)
+    {
+        return $model->where($condition)->first();
+    }
+
+
     /**
      * Update a record in the database.
      *
@@ -87,5 +93,16 @@ namespace App\Repositories;
                     return $query->where($condition);
                 })
                 ->paginate($paginate);
+    }
+
+    public function getallDatas($model ,$condition=null,  $columns=null){
+        return $model
+                ->when($columns, function($query) use ($columns){
+                    return $query->select($columns);
+                }) 
+                ->when($condition != null   , function($query) use ($condition){
+                    return $query->where($condition);
+                })
+                ->get();
     }
 }

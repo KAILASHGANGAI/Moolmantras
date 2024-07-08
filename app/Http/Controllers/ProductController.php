@@ -2,17 +2,52 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Repositories\BaseRepository;
+use App\Traits\CommonTrait;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    use CommonTrait;
+    private BaseRepository $repo;
+    public function __construct(BaseRepository $repo)
+    {
+        $this->repo = $repo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $condition=null;
+
+        $productColumns = [
+            'product_name',
+            'sku',
+            'compare_price',
+            'selling_price',
+            'image'
+        ];
+        $columns = [
+            'category_name',
+            'slug',
+            'image'
+        ];
+        $categoryCondition = [
+            
+            'pendingProcess'=>1
+        ];
+        $datas = [
+            'menuCategories' => $this->maincategory(),
+            'featuredProducts'=>$this->repo->getWithPagination(Product::query(), 12, $condition,  $productColumns),
+            'offerProducts'=>$this->repo->getWithPagination(Product::query(), 6, $condition,  $productColumns),
+            'categories' => $this->repo->getData(Category::query(), $categoryCondition, $columns),
+            'totalCountProducts'=> Product::count()
+        ];
+
+        return view('products', $datas);
     }
 
     /**

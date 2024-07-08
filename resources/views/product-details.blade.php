@@ -148,4 +148,4 @@
 <!-- Product Details Section End -->
 
 @include('parts.related-products')
-@endsection
+@endsection 

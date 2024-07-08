@@ -4,7 +4,7 @@
             <x-productImage :img="$img" :title="$title" />
         </div>
         <div class="latest-product__item__text">
-            <h6>{{ $title }}</h6>
+            <h6>{{ Str::ucfirst($title) }}</h6>
             <span>{{ $price }}</span>
         </div>
     </a>

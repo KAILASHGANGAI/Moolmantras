@@ -11,7 +11,7 @@
                     <ul>
                         @if ($menuCategories)
                                 @foreach ($menuCategories as $item)
-                                <li><a href="#">{{Str::ucfirst($item->category_name) }}</a></li>
+                                <li><a href="{{ route('collection', $item->slug) }}">{{Str::ucfirst($item->category_name) }}</a></li>
 
                                 @endforeach
                         @endif

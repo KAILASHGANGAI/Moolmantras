@@ -18,7 +18,8 @@ trait CommonTrait
     public function allHomePagedata(){
         $condition=null;
         $categoryCondition = [
-            'parent_category_id'=> '!=0'
+            
+            'pendingProcess'=>1
         ];
         $columns = [
             'category_name',
@@ -44,4 +45,15 @@ trait CommonTrait
             'reviewedProducts'=>$this->repository->getWithPagination(Product::query(), 6,$condition, $productColumns)
         ];
     }
+    public function maincategory(){
+        $MENU =[
+            'parent_category_id'=>0
+        ];
+        $columns = [
+            'category_name',
+            'slug',
+            'image'
+        ];
+        return Category::where($MENU)->get($columns);
+}
 }

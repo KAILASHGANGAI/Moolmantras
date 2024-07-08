@@ -3,16 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
+use App\Repositories\BaseRepository;
+use App\Traits\CommonTrait;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    use CommonTrait;
+    private BaseRepository $repo;
+    public function __construct(BaseRepository $repo)
+    {
+        $this->repo = $repo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+
+        $datas = [
+            'menuCategories' => $this->maincategory(),
+            'collections' => $this->repo->getallDatas(Category::query())
+        ];
+        return view('collections', $datas);
     }
 
     /**
@@ -28,15 +42,28 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show($slug)
     {
-        //
+        $condition = [
+            'slug' => $slug
+        ];
+        $data = $this->repo->getSingleData(Category::query(), $condition);
+        $pcondition = [
+            'category_id'=>$data->id
+        ];
+
+        $datas = [
+            'menuCategories' => $this->maincategory(),
+            'collection' => $data,
+            'products' => $this->repo->getWithPagination(Product::query(), 12, $pcondition)
+        ];
+       #dd($datas);
+        return view('collection', $datas);
     }
 
     /**
