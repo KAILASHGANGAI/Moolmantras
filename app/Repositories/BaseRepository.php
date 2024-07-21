@@ -9,7 +9,7 @@ namespace App\Repositories;
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getData($model, $condition=NULL,  $columns)
+    public function getData($model, $condition=NULL,  $columns= null , $limit = null,)
     {
         return $model
         ->when($columns, function($query) use ($columns){
@@ -17,6 +17,9 @@ namespace App\Repositories;
         }) 
         ->when($condition != null   , function($query) use ($condition){
             return $query->where($condition);
+        })
+        ->when($limit != null   , function($query) use ($limit){
+            return $query->take($limit);
         })
         ->get($columns);
     }
@@ -43,9 +46,13 @@ namespace App\Repositories;
         return $model->find($id);
     }
 
-    public function getSingleData($model,$condition=null)
+    public function getSingleData($model, $condition=null, $select= null)
     {
-        return $model->where($condition)->first();
+        return $model
+        ->when($select != null , function($q) use ($select){
+            $q->select($select);
+        })
+        ->where($condition)->first();
     }
 
 
@@ -84,13 +91,17 @@ namespace App\Repositories;
         return $record->delete();
     }
 
-    public function getWithPagination($model ,$paginate=20,$condition=null,  $columns=null){
+    public function getWithPagination($model ,$paginate,$condition=null,  $columns=null, $sort = null){
+       
         return $model
                 ->when($columns, function($query) use ($columns){
                     return $query->select($columns);
                 }) 
                 ->when($condition != null   , function($query) use ($condition){
                     return $query->where($condition);
+                })
+                ->when($sort != null   , function($query) use ($sort){
+                    return $query->orderBy($sort['column'], $sort['value']);
                 })
                 ->paginate($paginate);
     }

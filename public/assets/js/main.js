@@ -1,11 +1,4 @@
-/*  ---------------------------------------------------
-    Template Name: Ogani
-    Description:  Ogani eCommerce  HTML Template
-    Author: Colorlib
-    Author URI: https://colorlib.com
-    Version: 1.0
-    Created: Colorlib
----------------------------------------------------------  */
+
 
 'use strict';
 
@@ -16,7 +9,7 @@
     --------------------*/
     $(window).on('load', function () {
         $(".loader").fadeOut();
-        $("#preloder").delay(200).fadeOut("slow");
+        $("#preloder").delay(100).fadeOut("slow");
 
         /*------------------
             Gallery filter
@@ -53,8 +46,8 @@
     });
 
     /*------------------
-		Navigation
-	--------------------*/
+        Navigation
+    --------------------*/
     $(".mobile-menu").slicknav({
         prependTo: '#mobile-menu-wrap',
         allowParentLinks: true
@@ -96,7 +89,7 @@
     });
 
 
-    $('.hero__categories__all').on('click', function(){
+    $('.hero__categories__all').on('click', function () {
         $('.hero__categories ul').slideToggle(400);
     });
 
@@ -160,8 +153,8 @@
     });
 
     /*-----------------------
-		Price Range Slider
-	------------------------ */
+        Price Range Slider
+    ------------------------ */
     var rangeSlider = $(".price-range"),
         minamount = $("#minamount"),
         maxamount = $("#maxamount"),
@@ -173,12 +166,12 @@
         max: maxPrice,
         values: [minPrice, maxPrice],
         slide: function (event, ui) {
-            minamount.val('$' + ui.values[0]);
-            maxamount.val('$' + ui.values[1]);
+            minamount.val('Rs.' + ui.values[0]);
+            maxamount.val('Rs.' + ui.values[1]);
         }
     });
-    minamount.val('$' + rangeSlider.slider("values", 0));
-    maxamount.val('$' + rangeSlider.slider("values", 1));
+    minamount.val('Rs. ' + rangeSlider.slider("values", 0));
+    maxamount.val('Rs. ' + rangeSlider.slider("values", 1));
 
     /*--------------------------
         Select
@@ -186,8 +179,8 @@
     $("select").niceSelect();
 
     /*------------------
-		Single Product
-	--------------------*/
+        Single Product
+    --------------------*/
     $('.product__details__pic__slider img').on('click', function () {
 
         var imgurl = $(this).data('imgbigurl');
@@ -200,8 +193,8 @@
     });
 
     /*-------------------
-		Quantity change
-	--------------------- */
+        Quantity change
+    --------------------- */
     var proQty = $('.pro-qty');
     proQty.prepend('<span class="dec qtybtn">-</span>');
     proQty.append('<span class="inc qtybtn">+</span>');
@@ -215,10 +208,79 @@
             if (oldValue > 0) {
                 var newVal = parseFloat(oldValue) - 1;
             } else {
-                newVal = 0;
+                newVal = 1;
             }
         }
+        var productId = $button.parent().data('product-id');
+        var price = $button.parent().data('price');
+
+        console.log(productId)
         $button.parent().find('input').val(newVal);
+        $.ajax({
+            url: '/update-quantity', // Replace with your server endpoint
+            type: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                sku: productId,
+                quantity: newVal
+            },
+            success: function (response) {
+                var newTotal = (newVal * price).toFixed(2);
+                $button.parent().closest('tr').find('.shoping__cart__total').text(newTotal);
+                updateTotalSum();
+
+            },
+            error: function (error) {
+                console.error('Error updating quantity:', error);
+                // Optionally, you can revert the value in case of an error
+                input.val(oldValue);
+            }
+        });
     });
 
+    var  total = 0;
+    var nettotal=0;
+    $('.mytotal').each(function () {
+        total += parseFloat($(this).text());
+    });
+    $('.subtotal').text(total.toFixed(2));
+
+    if (total > 1000) {
+        $('.free').text('Free');
+        nettotal = total; // Delivery charge is free
+        $('.nettotal').text(nettotal.toFixed(2));
+
+    } else {
+        
+        var deliveryCharge = parseFloat($('.delivaryCharge').text());
+         nettotal = total + deliveryCharge;
+        $('.nettotal').text(nettotal.toFixed(2));
+
+    }
+console.log(nettotal)
+
+
 })(jQuery);
+
+function updateTotalSum() {
+    var totalSum = 0;
+
+    $('.shoping__cart__total').each(function () {
+        totalSum += parseFloat($(this).text());
+    });
+
+    var netTotal;
+
+    if (totalSum > 1000) {
+        $('#free').text('Free');
+        netTotal = totalSum; // Delivery charge is free
+    } else {
+        var deliveryCharge = parseFloat($('#delicaryCharge').text());
+        netTotal = totalSum + deliveryCharge;
+    }
+console.log(netTotal);
+    $('#netTotal').text(netTotal.toFixed(2)); // Update the total sum and format to 2 decimal places
+    $('#subtotal').text(totalSum.toFixed(2)); // Update the subtotal and format to 2 decimal places
+}
+// Initial total sum calculation
+updateTotalSum();

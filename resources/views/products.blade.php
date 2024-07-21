@@ -25,10 +25,12 @@
                 <div class="col-lg-3 col-md-5">
                     <div class="sidebar">
                         <div class="sidebar__item">
-                            <h4>Department</h4>
+                            <h4>Categories</h4>
                             <ul>
                                 @foreach ($categories as $item)
-                                    <li><a href="{{ route('collection', $item->slug) }}" >{{ Str::ucfirst($item->category_name )}}</a></li>
+                                    <li><a
+                                            href="{{ route('collection', $item->slug) }}">{{ Str::ucfirst($item->category_name) }}</a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -49,7 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="sidebar__item sidebar__item__color--option">
+                        {{-- <div class="sidebar__item sidebar__item__color--option">
                             <h4>Colors</h4>
                             <div class="sidebar__item__color sidebar__item__color--white">
                                 <label for="white">
@@ -114,29 +116,60 @@
                                     <input type="radio" id="tiny">
                                 </label>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-7">
-                    
+
                     <div class="filter__item">
                         <div class="row">
-                            <div class="col-lg-4 col-md-5">
+                            <div class="col-lg-6 col-md-5 d-flex">
                                 <div class="filter__sort">
+
+
                                     <span>Sort By</span>
-                                    <select>
-                                        <option value="0">Default</option>
-                                        <option value="0">Default</option>
+                                    <select id="sortSelect" onchange="handleChange(this)">
+                                        <option value="featured">Featured</option>
+                                        <option {{ $pageCondition['sort'] == 'alphabet_asc' ? 'selected' : '' }}
+                                            value="alphabet_asc">Name: A-Z</option>
+                                        <option {{ $pageCondition['sort'] == 'alphabet_desc' ? 'selected' : '' }}
+                                            value="alphabet_desc">Name: Z-A</option>
+                                        <option {{ $pageCondition['sort'] == 'price_asc' ? 'selected' : '' }}
+                                            value="price_asc">Price: Low to High</option>
+                                        <option {{ $pageCondition['sort'] == 'price_desc' ? 'selected' : '' }}
+                                            value="price_desc">Price: High to Low</option>
+                                        <option {{ $pageCondition['sort'] == 'popularity' ? 'selected' : '' }}
+                                            value="popularity">Popularity</option>
+                                        <option {{ $pageCondition['sort'] == 'newest' ? 'selected' : '' }} value="newest">
+                                            Newest Arrivals</option>
+                                        <option {{ $pageCondition['sort'] == 'oldest' ? 'selected' : '' }} value="oldest">
+                                            Older Arrivals</option>
+                                    </select>
+                                </div>
+                                <div class="filter__sort">
+
+
+                                    <select id="paginateSelect" onchange="paginateSelect(this)">
+
+                                        <option {{ $pageCondition['pagination'] == 12 ? 'selected' : '' }} value="12">12
+                                        </option>
+                                        <option {{ $pageCondition['pagination'] == 20 ? 'selected' : '' }} value="20">20
+                                        </option>
+                                        <option {{ $pageCondition['pagination'] == 30 ? 'selected' : '' }} value="30">30
+                                        </option>
+                                        <option {{ $pageCondition['pagination'] == 50 ? 'selected' : '' }} value="50">50
+                                        </option>
+                                        >
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4">
+                            <div class="col-lg-3 col-md-4">
                                 <div class="filter__found">
                                     <h6><span>{{ $totalCountProducts }}</span> Products found</h6>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-3">
+                            <div class="col-lg-3 col-md-3">
                                 <div class="filter__option">
                                     <span class="icon_grid-2x2"></span>
                                     <span class="icon_ul"></span>
@@ -145,18 +178,108 @@
                         </div>
                     </div>
                     <div class="row featured__filter">
-                        @foreach ($featuredProducts as $item)
-                            <div class="col-lg-4 col-md-4 col-sm-6 mix oranges fastfood">
-                                <x-ProductCard :id="$item->sku" :img="$item->image" :title="$item->product_name" :price="$item->selling_price" />
+                        @if ($featuredProducts)
+                            @foreach ($featuredProducts as $item)
+                                <div class="col-lg-4 col-md-4 col-sm-6 p-2">
+                                    <x-ProductCard 
+                                    :id="$item->sku" 
+                                    :img="$item->image" 
+                                    :title="$item->product_name"
+                                    :sprice="$item->selling_price" 
+                                    :cprice="$item->compare_price" 
+                                    :itemSpecific="'lorem'" 
+                                    :category="$item->category->category_name" />
 
-                            </div>
-                        @endforeach
+                                </div>
+                            @endforeach
+                        @endif
 
                     </div>
-                    {{ $featuredProducts->links() }}
+
+                    {{ $featuredProducts->appends($pageCondition)->links() }}
+
                 </div>
             </div>
         </div>
     </section>
     <!-- Product Section End -->
+@endsection
+@section('jsScript')
+    <script>
+        function handleChange(selectElement) {
+            const selectedValue = selectElement.value;
+            const currentUrl = window.location.href; // Get current URL
+
+            // Check if current URL already has a query string
+            if (currentUrl.includes('?')) {
+                // URL already has a query string
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('sort')) {
+                    // Change the value of existing 'sort' parameter
+                    urlParams.set('sort', selectedValue);
+                } else {
+                    // Add 'sort' parameter to the existing query string
+                    urlParams.append('sort', selectedValue);
+                }
+                newUrl = `${currentUrl.split('?')[0]}?${urlParams.toString()}`;
+            } else {
+                // URL does not have a query string
+                newUrl = `${currentUrl}?sort=${selectedValue}`;
+            }
+
+            window.location.href = newUrl; // Redirect to the new URL with sorting parameter
+        }
+
+        function paginateSelect(selectElement) {
+            const selectedValue = selectElement.value;
+            const currentUrl = window.location.href; // Get current URL
+
+            // Check if current URL already has a query string
+            if (currentUrl.includes('?')) {
+                // URL already has a query string
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('pagination')) {
+                    // Change the value of existing 'pagination' parameter
+                    urlParams.set('pagination', selectedValue);
+                } else {
+                    // Add 'pagination' parameter to the existing query string
+                    urlParams.append('pagination', selectedValue);
+                }
+                newUrl = `${currentUrl.split('?')[0]}?${urlParams.toString()}`;
+            } else {
+                // URL does not have a query string
+                newUrl = `${currentUrl}?pagination=${selectedValue}`;
+            }
+
+            window.location.href = newUrl; // Redirect to the new URL with pagination parameter
+        }
+    </script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var nextPageUrl = '{{ $featuredProducts->nextPageUrl() }}';
+
+        $(window).scroll(function() {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                if (nextPageUrl) {
+                    $.ajax({
+                        url: nextPageUrl,
+                        method: 'GET',
+                        success: function(response) {
+                            // Append new products to the list
+                            $('.products-list').append(response);
+
+                            // Update nextPageUrl for the next request
+                            nextPageUrl = $(response).filter('.pagination').find('.next a').attr('href');
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error loading more products:', error);
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script>
 @endsection

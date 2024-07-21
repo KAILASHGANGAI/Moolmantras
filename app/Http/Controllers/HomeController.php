@@ -23,5 +23,18 @@ class HomeController extends Controller
       return view('welcome', $datas);
     }
 
+    public function shopingCart(){
+        $datas = [
+            'menuCategories'=>$this->maincategory()
+        ];
+        return view('shoping-cart', $datas);
+    }
+
+    public function checkout(){
+        $datas = [
+            'menuCategories'=>$this->maincategory()
+        ];
+        return view('checkout', $datas);
+    }
     
 }

@@ -19,16 +19,27 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $condition=null;
+        $pagination = 12;
+
+        $sort = $this->sortProduct($request->sort);
+
+        $pagination = $request->pagination ? min($request->pagination, 50)  : $pagination;
+        $pageCondition['sort'] = $request->sort;
+        $pageCondition['pagination'] = $request->pagination;
+
+        $condition = null;
 
         $productColumns = [
             'product_name',
             'sku',
             'compare_price',
             'selling_price',
-            'image'
+            'image',
+            'category_id',
+            'PushedDate',
+            'created_at'
         ];
         $columns = [
             'category_name',
@@ -36,15 +47,17 @@ class ProductController extends Controller
             'image'
         ];
         $categoryCondition = [
-            
-            'pendingProcess'=>1
+
+            'pendingProcess' => 1
         ];
+        $productModel = Product::query()->with(['category:id,category_name']);
         $datas = [
             'menuCategories' => $this->maincategory(),
-            'featuredProducts'=>$this->repo->getWithPagination(Product::query(), 12, $condition,  $productColumns),
-            'offerProducts'=>$this->repo->getWithPagination(Product::query(), 6, $condition,  $productColumns),
+            'featuredProducts' => $this->repo->getWithPagination($productModel, $pagination, $condition,  $productColumns, $sort),
+            'offerProducts' => $this->repo->getWithPagination($productModel, 6, $condition,  $productColumns, null),
             'categories' => $this->repo->getData(Category::query(), $categoryCondition, $columns),
-            'totalCountProducts'=> Product::count()
+            'totalCountProducts' => Product::count(),
+            'pageCondition' => $pageCondition ?? null
         ];
 
         return view('products', $datas);
@@ -69,9 +82,42 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show($sku)
     {
-        //
+        $pcondition = [
+            'sku' => $sku
+        ];
+        $data = $this->repo->getSingleData(
+            Product::query()->with(['category:id,category_name','images' => function ($q) {
+                return $q->orderBy('imageSequence', 'ASC');
+            }]),
+            $pcondition
+        );
+      
+
+        $relatedCondition = [
+            'category_id' => $data->category_id
+        ];
+        $productColumns = [
+            'product_name',
+            'sku',
+            'compare_price',
+            'selling_price',
+            'category_id',
+            'image'
+        ];
+        $datas = [
+            'menuCategories' => $this->maincategory(),
+            'product' => $data,
+            'relatedProduct' => $this->repo->getData(
+                Product::query()->with('category:id,category_name')->inRandomOrder(),
+                $relatedCondition,
+                $productColumns,
+                4
+            ),
+
+        ];
+        return view('product-details', $datas);
     }
 
     /**

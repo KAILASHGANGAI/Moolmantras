@@ -56,11 +56,12 @@ class CategoryController extends Controller
         $pcondition = [
             'category_id'=>$data->id
         ];
+        $productModel = Product::query()->with(['category:id,category_name']);
 
         $datas = [
             'menuCategories' => $this->maincategory(),
             'collection' => $data,
-            'products' => $this->repo->getWithPagination(Product::query(), 12, $pcondition)
+            'products' => $this->repo->getWithPagination($productModel, 12, $pcondition,null, null)
         ];
        #dd($datas);
         return view('collection', $datas);
