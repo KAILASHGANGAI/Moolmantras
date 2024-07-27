@@ -6,6 +6,7 @@ use App\Http\Controllers\EsewaModelController;
 use App\Http\Controllers\FonepayController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KhaltiController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,9 @@ Route::get('fonepay-verification/{slug}',[FonepayController::class,'verification
 
 Route::get('khalti-checkout/{product:slug}',[KhaltiController::class,'checkout'])->name('khalti.checkout');
 Route::get('khalti-verification/{product:slug}',[KhaltiController::class,'verification'])->name('khalti.verification');
+
+Route::post('check-out', [OrderController::class, 'checkout'])->name('checkoutOrder');
+
+Route::get('/esewa-success', [EsewaModelController::class, 'success']);
+Route::get('/esewa-failure', [EsewaModelController::class, 'failure']);
+

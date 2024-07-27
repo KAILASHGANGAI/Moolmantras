@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\EsewaModel;
+use App\Models\PaymentDetail;
 use App\Models\Product;
+use App\Repositories\BaseRepository;
 use App\Repositories\Payment\Esewa;
+use App\Traits\CommonTrait;
 use Illuminate\Http\Request;
 // init composer autoloader.
 require '../vendor/autoload.php';
@@ -15,62 +18,14 @@ use RemoteMerge\Esewa\Config as EsewaConfig;
 
 class EsewaModelController extends Controller
 {
+    use CommonTrait;
+    protected $repository;
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    function __construct(BaseRepository $repository)
     {
-        //
+        $this->repository = $repository;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(EsewaModel $esewaModel)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(EsewaModel $esewaModel)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, EsewaModel $esewaModel)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(EsewaModel $esewaModel)
-    {
-        //
-    }
     public function checkout()
     {
         return (new Esewa)->pay(
@@ -185,5 +140,48 @@ class EsewaModelController extends Controller
         dd($msg1);
         return view('thankyou', compact('msg', 'msg1'));
         //  }
+    }
+    public function success(Request $request)
+    {
+        $oid = $_GET['oid'];
+        $amt = $_GET['amt'];
+        $refId = $_GET['refId'];
+        $where = [
+            'transectionCode' => $refId,
+        ];
+
+        $data = [
+            'transectionCode' => $refId,
+
+            'orderNumber' => null,
+            'oid' => $oid,
+            'status' => 'success',
+            'paymentMethod' => 'ESEWA',
+            'amount' => $amt
+        ];
+
+        $this->repository->createOrUpdate(
+            PaymentDetail::query(),
+            $where,
+            $data
+        );
+
+
+        $data = [
+            'menuCategories' => $this->maincategory()
+        ];
+
+
+        return view('payment.success', $data);
+    }
+    public function failure(Request $request)
+    {
+
+        $data = [
+            'menuCategories' => $this->maincategory()
+        ];
+
+
+        return view('payment.failure', $data);
     }
 }

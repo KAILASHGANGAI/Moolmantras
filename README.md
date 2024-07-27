@@ -16,6 +16,8 @@ Test OTP 987654
 Test Credentials
 
 eSewa ID: 9806800001/2/3/4/5
-Password: Nepal@123
+Password:   
 MPIN: 1122 (for application only)
 Merchant ID/Service Code: EPAYTEST Token:123456
+
+php artisan migrate:fresh --seed --seeder=PermissionsSeeder

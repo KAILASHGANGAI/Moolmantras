@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class DelivaryLocation extends Model
 {
     use HasFactory;
+    protected $table = 'delivary_location';
+    protected $guarded = [];
 }

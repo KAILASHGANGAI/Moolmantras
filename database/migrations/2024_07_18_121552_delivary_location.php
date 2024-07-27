@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('delivary_location', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('orderNumber')->nullable();
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('phone');
@@ -35,6 +36,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('delivary_location');
+        
     }
 };
