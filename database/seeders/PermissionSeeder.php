@@ -40,7 +40,12 @@ class PermissionSeeder extends Seeder
         $role2->givePermissionTo('unpublish');
 
         $role3 = Role::create(['name' => 'SuperAdmin']);
-        // gets all permissions via Gate::before rule; see AuthServiceProvider
+        $role3->givePermissionTo('store');
+        $role3->givePermissionTo('update');
+        $role3->givePermissionTo('edit');
+        $role3->givePermissionTo('view');
+        $role3->givePermissionTo('delete');
+
         $role4 = Role::create(['name'=>'visitor']);
 
         // create demo users

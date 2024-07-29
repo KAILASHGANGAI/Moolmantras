@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('vendor_id')->nullable();
+
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('variant_id')->nullable();
             $table->tinyInteger('pendingProcess')->default(1);

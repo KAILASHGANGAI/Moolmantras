@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('parent_category_id')->default(0);
+            $table->unsignedBigInteger('vendor_id')->nullable();
+
             $table->string('category_name');
             $table->tinyInteger('pendingProcess')->default(1);
 

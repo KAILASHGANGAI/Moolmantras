@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('order_products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('orderNumber');
+            $table->unsignedBigInteger('vendor_id')->nullable();
+
             $table->string('productCode');
             $table->string('sku')->nullable();
             $table->string('barcode')->nullable();

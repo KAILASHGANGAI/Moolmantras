@@ -38,7 +38,7 @@
                                         <th>BuyingPrice</th>
 
                                         <th>Availabel</th>
-                                        <th>Sold</th>
+                                        <th>Status</th>
                                         <th>Action</th>
 
                                     </tr>
@@ -52,12 +52,12 @@
                                                 <img class="img img-thumbnail" src="{{ asset($item->image) }}">
                                             </td>
                                             <td>{{ $item->product_name }}</td>
-                                            <td>{{ $item->category->name }}</td>
-                                            <td>{{ $item->product_code }}</td>
+                                            <td>{{ $item->category->category_name }}</td>
+                                            <td>{{ $item->sku }}</td>
                                             <td>{{ $item->selling_price }}</td>
                                             <td>{{ $item->buying_price }}</td>
-                                            <td>{{ $item->availabel_quantity }}</td>
-                                            <td>{{ $item->sold_quantity }}</td>
+                                            <td>{{ $item->stock_on_hand }}</td>
+                                            <td>{{ $item->status == 1 ? 'Active' : 'Archived' }}</td>
 
                                             <td>
                                                 <a class="btn btn-primary btn-sm"
@@ -72,10 +72,15 @@
                                                     </i>
 
                                                 </a>
-                                                <a class="btn btn-danger btn-sm"
-                                                    href="{{ route('products.destroy', $item->id) }}">
-                                                    <i class="fas fa-trash">
-                                                    </i>
+                                                <a class="btn btn-danger btn-sm">
+                                                    <form action="{{ route('products.destroy', $item->id) }}"
+                                                        method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
 
                                                 </a>
                                             </td>

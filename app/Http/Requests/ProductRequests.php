@@ -11,7 +11,7 @@ class ProductRequests extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,18 +25,18 @@ class ProductRequests extends FormRequest
             'product_name' => 'required|string|max:255',
             'category_id' => 'required|integer|exists:categories,id',
             'sku' => 'required|string|max:255|unique:products,sku',
-            'barcode' => 'required|string|max:255|unique:products,barcode',
+            'barcode' => 'string|max:255|unique:products,barcode',
             'stock_on_hand' => 'nullable|integer|min:0',
             'compare_price' => 'nullable|numeric|min:0',
             'selling_price' => 'required|numeric|min:0',
-            'supplier_name' => 'nullable|string|max:255',
+            'supplier' => 'nullable|string|max:255',
             'buying_price' => 'nullable|numeric|min:0',
             'buying_date' => 'nullable|date',
             'weight' => 'nullable|numeric|min:0',
             'weightUnit' => 'nullable|string|max:10',
-            'tags' => 'nullable|text',
+            'tags' => 'nullable',
             'slug' => 'required|string|max:255|unique:products,slug',
-            'description' => 'nullable|text',
+            'description' => 'nullable',
         ];
     }
 }

@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequests;
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Product;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Nwidart\Modules\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ProductController extends Controller
 {
@@ -16,8 +21,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(20);
-
+        $products = Product::get();
         return view('admin.products.index', compact('products'));
     }
 
@@ -35,14 +39,19 @@ class ProductController extends Controller
      */
     public function store(ProductRequests $request)
     {
-        
+
         try {
-            $product = new Product($request->all());
+            $data = $request->all();
+            $data['vendor_id'] = Auth::id();
+            unset($data['images']);
+            DB::beginTransaction();
+            $product =  Product::create($data);
             // Handle image upload
             // Handle multiple image uploads
-            $imagePaths = [];
+
             if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
+                foreach ($request->file('images') as $key => $image) {
+
                     // Generate a unique name for the file
                     $fileName = uniqid('photo_') . '.' . $image->getClientOriginalExtension();
 
@@ -50,21 +59,31 @@ class ProductController extends Controller
                     $image->move(public_path('photos/products'), $fileName);
 
                     // Store the file path
-                    $imagePaths[] = 'photos/products/' . $fileName;
+                    $imagePaths = 'photos/products/' . $fileName;
+                    if ($key == 0) {
+                        $product->update(['image' => $imagePaths]);
+                    }
+                    Image::create([
+                        'product_id' => $product->id,
+                        'pendingProcess' => 1,
+                        'mainImage' => ($key == 0) ? 1 : 0,
+                        'image' => $imagePaths,
+                        'imageSequence' => $key,
+                        'fullUrl' => env('APP_URL') . $imagePaths,
+                        'status' => 1
+                    ]);
                 }
             }
 
-            // Save image paths to the product model (assuming a 'images' column or related model)
-            $product->images = json_encode($imagePaths); // Store as JSON
-            $product->save();
+
 
 
             # toast('product created successfully!', 'success');
-
+            DB::commit();
             return redirect()->route('products.index')->with('success', 'product created successfully!');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             # toast($e->getMessage(), 'error');
-dd($e);
+            # dd($e);
             return redirect()->back()->withInput()->withErrors(['error' => $e->getMessage()]);
         }
     }
@@ -74,7 +93,7 @@ dd($e);
      */
     public function show(Product $product)
     {
-        return view('products.show', compact('product'));
+        return view('admin.products.show', compact('product'));
     }
 
     /**
@@ -84,7 +103,7 @@ dd($e);
     {
         $categories = Category::all();
 
-        return view('products.edit', compact('product', 'categories'));
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -93,29 +112,54 @@ dd($e);
     public function update(Request $request, Product $product)
     {
         try {
-            $product->update($request->all());
+            $data = $request->all();
+            unset($data['images']);
+            DB::beginTransaction();
+            $product =  $product->update($data);
 
             // Handle image upload
-            if ($request->hasFile('image')) {
-                $uploadedFile = $request->file('image');
+            // Handle multiple image uploads
 
-                // Generate a unique name for the file
-                $fileName = uniqid('photo_') . '.' . $uploadedFile->getClientOriginalExtension();
+            if ($request->hasFile('images')) {
+                $Images = Image::where('product_id', $product->id)->get();
+                foreach ($Images as $img) {
+                    if (file_exists($img->image)) {
+                        unlink($img->image);
+                        $img->delete();
+                    }
+                }
 
-                // Move the file to the public/photos directory
-                $uploadedFile->move(public_path('photos/products'), $fileName);
+                foreach ($request->file('images') as $key => $image) {
 
-                // Set the photo attribute in the product model
-                $product->image = 'photos/products/' . $fileName;
+                    // Generate a unique name for the file
+                    $fileName = uniqid('photo_') . '.' . $image->getClientOriginalExtension();
+
+                    // Move the file to the public/photos/products directory
+                    $image->move(public_path('photos/products'), $fileName);
+
+                    // Store the file path
+                    $imagePaths = 'photos/products/' . $fileName;
+                    if ($key == 0) {
+                        $product->update(['image' => $imagePaths]);
+                    }
+                    Image::create([
+                        'product_id' => $product->id,
+                        'pendingProcess' => 1,
+                        'mainImage' => ($key == 0) ? 1 : 0,
+                        'image' => $imagePaths,
+                        'imageSequence' => $key,
+                        'fullUrl' => env('APP_URL') . $imagePaths,
+                        'status' => 1
+                    ]);
+                }
             }
 
-            $product->save();
-            toast('product Updated successfully!', 'success');
-
+            # toast('product created successfully!', 'success');
+            DB::commit();
             return redirect()->route('products.index')->with('success', 'Product updated successfully');
         } catch (Exception $e) {
-            toast($e->getMessage(), 'error');
-
+            // toast($e->getMessage(), 'error');
+            dd($e);
             return redirect()->back()->withInput()->withErrors(['error' => $e->getMessage()]);
         }
     }
@@ -125,6 +169,7 @@ dd($e);
      */
     public function destroy(Product $product)
     {
+        
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'Product deleted successfully');

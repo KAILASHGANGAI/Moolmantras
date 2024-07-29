@@ -10,7 +10,7 @@ use App\Repositories\Payment\Esewa;
 use App\Traits\CommonTrait;
 use Illuminate\Http\Request;
 // init composer autoloader.
-require '../vendor/autoload.php';
+#require '../vendor/autoload.php';
 
 
 use RemoteMerge\Esewa\Client as EsewaClient;

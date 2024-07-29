@@ -100,9 +100,9 @@
 
                                 <div class="col-sm-3 form-group">
                                     <label>Product Supplier</label>
-                                    <input type="text" name="supplier_name" class="form-control"
-                                        value="{{ old('supplier_name') }}" placeholder="Enter Full name">
-                                    @error('supplier_name')
+                                    <input type="text" name="supplier" class="form-control"
+                                        value="{{ old('supplier') }}" placeholder="Enter Full name">
+                                    @error('supplier')
                                         <p class="error text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>

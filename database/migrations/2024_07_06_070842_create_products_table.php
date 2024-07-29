@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->string('product_name');
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('vendor_id')->nullable();
             $table->boolean('pendingProcess')->default(0);
             $table->boolean('status')->default(0);
             $table->string('sku')->unique();

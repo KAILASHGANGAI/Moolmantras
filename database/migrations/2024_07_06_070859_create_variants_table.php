@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('variants', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('vendor_id')->nullable();
             $table->unsignedBigInteger('image_id')->nullable();
             $table->string('variant_name')->nullable();
             $table->tinyInteger('pendingProcess')->default(1);
