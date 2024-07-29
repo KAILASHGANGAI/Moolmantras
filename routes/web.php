@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddToCardController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EsewaModelController;
 use App\Http\Controllers\FonepayController;
@@ -9,6 +10,15 @@ use App\Http\Controllers\KhaltiController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+
+
+Route::get('/login', function() {
+    return view('Auth.login');
+})->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])->name('loginPost');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 Route::get('/', [HomeController::class , 'index'])->name('home');
 
@@ -40,3 +50,4 @@ Route::post('check-out', [OrderController::class, 'checkout'])->name('checkoutOr
 Route::get('/esewa-success', [EsewaModelController::class, 'success']);
 Route::get('/esewa-failure', [EsewaModelController::class, 'failure']);
 
+require_once 'admin_web.php';
