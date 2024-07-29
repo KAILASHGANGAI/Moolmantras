@@ -104,11 +104,12 @@ class OrderController extends Controller
                 'email' => $request->email
             ];
 
-            $this->repo->createOrUpdate(
+           $customerID = $this->repo->createOrUpdate(
                 Customer::query(),
                 $customerCondition,
                 $customer
             );
+            $order->update(['customer_id'=>$customerID->id]);
             unset($customer['address']);
             unset($customer['billingAddress']);
             // delivary Location

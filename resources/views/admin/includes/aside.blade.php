@@ -25,8 +25,8 @@
                     </a>
 
                 </li>
-          
-                 <li class="nav-item">
+
+                <li class="nav-item">
                     <a href="{{ route('products.index') }}" class="nav-link">
 
                         <i class="nav-icon ion ion-person-add"></i>
@@ -59,33 +59,53 @@
 
                     </ul>
                 </li>
-             {{--   <li class="nav-item">
-                    <a href="{{ route('staff.index') }}" class="nav-link">
+                <li class="nav-item">
+                    <a href="{{ route('customer.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
-                            Staff
+                            Customer
                             <i class="fas fa-angle-left right"></i>
 
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('staff.index') }}" class="nav-link">
+                            <a href="{{ route('customer.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>List staff</p>
+                                <p>List customer</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('staff.create') }}" class="nav-link">
+                        {{-- <li class="nav-item">
+                            <a href="{{ route('customer.create') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Create New staff</p>
+                                <p>Create New customer</p>
                             </a>
-                        </li>
+                        </li> --}}
 
 
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tree"></i>
+                        <p>
+                            Orders
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('orders.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List Orders</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+                </li>
+                {{--  <li class="nav-item">
                     <a href="{{ route('deposite.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
@@ -109,76 +129,10 @@
 
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tree"></i>
-                        <p>
-                            Products
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('products.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List Products</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('products.create') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Create new Product</p>
-                            </a>
-                        </li>
+                
 
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tree"></i>
-                        <p>
-                            Categories
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('categories.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List categories</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('categories.create') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Create new Product</p>
-                            </a>
-                        </li>
-
-                    </ul>
-
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tree"></i>
-                        <p>
-                            Orders
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('orders.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List Orders</p>
-                            </a>
-                        </li>
-
-
-                    </ul>
-
-                </li> --}}
+               
+                --}}
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

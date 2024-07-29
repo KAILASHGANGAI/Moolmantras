@@ -59,7 +59,7 @@ class ProductController extends Controller
                     $image->move(public_path('photos/products'), $fileName);
 
                     // Store the file path
-                    $imagePaths = 'photos/products/' . $fileName;
+                    $imagePaths = '/photos/products/' . $fileName;
                     if ($key == 0) {
                         $product->update(['image' => $imagePaths]);
                     }
@@ -138,7 +138,7 @@ class ProductController extends Controller
                     $image->move(public_path('photos/products'), $fileName);
 
                     // Store the file path
-                    $imagePaths = 'photos/products/' . $fileName;
+                    $imagePaths = '/photos/products/' . $fileName;
                     if ($key == 0) {
                         $product->update(['image' => $imagePaths]);
                     }

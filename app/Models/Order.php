@@ -12,4 +12,8 @@ class Order extends Model
 
     protected $table = 'orders';
     protected $guarded = [];
+
+    public function customer(){
+        return $this->hasOne(Customer::class,'id', 'customer_id');
+    }
 }

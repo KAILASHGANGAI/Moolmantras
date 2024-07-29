@@ -1,4 +1,5 @@
-@extends('../layouts.app')
+@extends('admin.layouts.admin')
+
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -34,7 +35,7 @@
                                         <th>Quantity</th>
                                         <th>Total</th>
                                         <th>Payed By</th>
-                                        <th>Due</th>
+                                        <th>DelivaryCharge</th>
                                         <th>Action</th>
 
                                     </tr>
@@ -44,16 +45,16 @@
                                         <tr>
                                             <td>{{ ++$key }}</td>
 
-                                            <td>{{ $item->customer->name }}</td>
-                                            <td>{{ $item->quantity }}</td>
-                                            <td>{{ $item->total }}</td>
-                                            <td>{{ $item->pay_amount }}</td>
+                                            <td>{{ $item->user_id }}</td>
+                                            <td>{{ $item->no_of_item }}</td>
+                                            <td>{{ $item->nettotal }}</td>
+                                            <td>{{ $item->payment_method }}</td>
 
-                                            <td>{{ $item->due }}</td>
+                                            <td>{{ $item->delivaryCharge }}</td>
 
                                             <td>
                                                 <a class="btn btn-primary btn-sm"
-                                                    href="{{ url('checkout/bill?order=' . $item->id) }}">
+                                                    href="{{ url('/admin/checkout/bill?order=' . $item->id) }}">
                                                     <i class="fas fa-folder">
                                                     </i>
 

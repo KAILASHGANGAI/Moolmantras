@@ -1,4 +1,4 @@
-@extends('../layouts.app')
+@extends('admin.layouts.admin')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -46,9 +46,9 @@
                                             <td>{{ ++$key }}</td>
                                             <td>{{ $item->name }} </td>
                                             <td>{{ $item->phone }}</td>
-                                            <td> {{ $item->provision->provision_name }}</td>
-                                            <td>{{ $item->district->districts_name }}</td>
-                                            <td>{{ $item->gaupalika->gaupalika_name }}</td>
+                                            <td> {{ $item->provinces }}</td>
+                                            <td>{{ $item->district }}</td>
+                                            <td>{{ $item->gaupalika }}</td>
                                             <td>{{ $item->ward_no }}</td>
                                             <td>
                                                 <a class="btn btn-primary btn-sm"

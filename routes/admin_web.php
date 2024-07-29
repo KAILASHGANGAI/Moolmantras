@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AdminDashboardController;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +13,10 @@ Route::group(['middleware'=>['auth', 'role:admin|SuperAdmin'],  'prefix' => 'adm
 
     Route::resource('products', ProductController::class);
     Route::resource('category', CategoryController::class);
+    Route::resource('customer', CustomerController::class);
+    Route::resource('orders', OrderController::class);
+    Route::get('/checkout/bill', [OrderController::class, 'showBill']);
+
 }); 
 
 

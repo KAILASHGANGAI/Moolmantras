@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->unsignedBigInteger('customer_id')->nullable();
 
             $table->string('orderNumber')->nullable();
             $table->decimal('total_price', 8, 2);
