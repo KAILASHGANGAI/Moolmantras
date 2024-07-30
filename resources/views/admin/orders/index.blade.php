@@ -34,8 +34,9 @@
                                         <th>Customer</th>
                                         <th>Quantity</th>
                                         <th>Total</th>
-                                        <th>Payed By</th>
+                                        <th>PaymentMethod</th>
                                         <th>DelivaryCharge</th>
+                                        <th>Status</th>
                                         <th>Action</th>
 
                                     </tr>
@@ -51,27 +52,37 @@
                                             <td>{{ $item->payment_method }}</td>
 
                                             <td>{{ $item->delivaryCharge }}</td>
+                                            <td>{{ $item->status }}</td>
 
                                             <td>
-                                                <a class="btn btn-primary btn-sm"
+                                                <a class=""
                                                     href="{{ url('/admin/checkout/bill?order=' . $item->id) }}">
                                                     <i class="fas fa-print">
                                                     </i>
 
                                                 </a>
-                                                <a class="btn btn-primary btn-sm"
-                                                    href="{{ route('orders.show', $item->id) }}">
+                                                <a class="" href="{{ route('orders.show', $item->id) }}">
                                                     <i class="fas fa-eye">
                                                     </i>
 
                                                 </a>
+                                                <a class="" href="{{ route('orders.reject', ['id' => $item->id]) }}">
 
-                                                <a class="btn btn-warning btn-sm"
-                                                    href="{{ route('orders.destroy', $item->id) }}">
-                                                    {{-- <i class="fas fa-trash">
-                                                    </i> --}}
-                                                        ❌❎✅  
+                                                    ❎
                                                 </a>
+
+                                                <a href="{{ route('orders.approve', ['id' => $item->id]) }}">
+
+                                                    ✅
+                                                </a>
+                                                <form action="{{ route('orders.destroy', $item->id) }}" method="POST"
+                                                    style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -85,10 +96,10 @@
                                         <th>Customer</th>
                                         <th>Quantity</th>
                                         <th>Total</th>
-                                        <th>Payed</th>
-                                        <th>Due</th>
+                                        <th>PaymentMethod</th>
+                                        <th>DelivaryCharge</th>
+                                        <th>Status</th>
                                         <th>Action</th>
-
                                     </tr>
                                 </tfoot>
                             </table>

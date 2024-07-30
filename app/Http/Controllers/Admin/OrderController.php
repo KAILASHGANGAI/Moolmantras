@@ -83,8 +83,27 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy( $id)
     {
-        //
+        $order = Order::find($id)->delete();
+        return back()->with('success', 'Order Deleted');
+
+    }
+
+    public function reject($id){
+        $order = Order::find($id);
+
+        $status = $order->status == 'cancled' ? 'Pending' : 'cancled';
+        $order->update(['status'=>$status]);
+
+        return back()->with('success', 'Order Rejected !!');
+    }
+    public function approve($id){
+        $order = Order::find($id);
+
+        $status = $order->status == 'Approved' ? 'Pending' : 'Approved';
+        $order->update(['status'=>$status]);
+
+        return back()->with('success', 'Order Approved !!');
     }
 }

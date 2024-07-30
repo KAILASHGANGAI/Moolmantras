@@ -15,6 +15,8 @@ Route::group(['middleware'=>['auth', 'role:admin|SuperAdmin'],  'prefix' => 'adm
     Route::resource('category', CategoryController::class);
     Route::resource('customer', CustomerController::class);
     Route::resource('orders', OrderController::class);
+    Route::get('orders-rejected/{id}', [OrderController::class, 'reject'])->name('orders.reject');
+    Route::get('orders-approve/{id}', [OrderController::class, 'approve'])->name('orders.approve');
     Route::get('/checkout/bill', [OrderController::class, 'showBill']);
 
 }); 
