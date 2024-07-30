@@ -84,47 +84,60 @@
         <!-- Add bill details here -->
         <div class="d-flex justify-content-between flex-row px-4">
             <div>
-                <span>Order ID:{{ $order->id }}</span> <br>
-                <span>Customer Name:{{ $order->customer }}</span> <br>
-                <span>Customer ID:{{ $order->customer }}</span>
+                <span>Order ID: #{{ $order->id }}</span> <br>
+                <span>Customer Name:{{ $order->customer->name }}</span> <br>
+                <span>Customer ID: #{{ $order->customer->id }}</span> <br>
+                <span>Date: {{ $order->created_at }}</span>
             </div>
-            <div class="">
-                <span>Payed Amount:{{ $order->pay_amount }}</span> <br>
-                <span>Due Amount :{{ $order->due }}</span> <br>
-                <span>Payed By :{{ $order->payby }}</span>
-            </div>
+
         </div>
         <!-- Include more details as needed -->
 
         <!-- Example: Display items in the order -->
-        <table>
-            <thead>
-                <tr>
-                    <th>S.N</th>
-                    <th>Products</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>SubTotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{-- @foreach ($order->orderDetails as $key => $item)
+        @if ($order->orderProducts)
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ ++$key }}</td>
-                        <td>{{ $item->product->product_name }}</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>Rs. {{ $item->price }}</td>
-                        <td>Rs.{{ $item->quantity * $item->price }}</td>
+                        <th>S.N</th>
+                        <th>Products</th>
+                        
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>SubTotal</th>
                     </tr>
-                @endforeach
-                <tr>
-                    <td colspan="2" class="text-center"> Total </td>
-                    <td>{{ $order->quantity }}</td>
-                    <td colspan="2" class="text-center">Rs. {{ $order->total }}</td>
-                </tr> --}}
-            </tbody>
+                </thead>
+                <tbody>
+                    @foreach ($order->orderProducts as $key => $item)
+                        <tr>
+                            <td>{{ ++$key }}</td>
+                            <td>{{ $item->product->product_name }}</td>
+                          
+                            <td>{{ $item->quantity }}</td>
+                            <td>Rs. {{ $item->unitPrice }}</td>
+                            <td>Rs.{{ $item->unitPrice }}</td>
+                        </tr>
+                    @endforeach
+                    <tr>
+                        <td colspan="4" class="text-center"> Total: </td>
+                        
+                        <td colspan="2" class="text-center">Rs. {{  $order->orderProducts->sum('subtotal') }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-center"> Delivary Charge: </td>
+                        
+                        <td colspan="2" class="text-center">Rs. {{  $order->delivaryCharge }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-center"> Total </td>
+                        
+                        <td colspan="2" class="text-center">Rs. {{  $order->nettotal}}</td>
+                    </tr>
+                </tbody>
 
-        </table>
+            </table>
+            @else
+            <h1 class="text-center">No Products</h1>
+        @endif
         <div class="py-5">
             <span>_______________</span> <br>
             <span>Signature</span>

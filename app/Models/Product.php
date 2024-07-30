@@ -15,9 +15,12 @@ class Product extends Model
     public function newQuery($excludeDeleted = true)
     {
         $query = parent::newQuery($excludeDeleted);
-        $role = Auth::user()->getRoleNames();
+            if (Auth::user()) {
+            
+            $role = Auth::user()->getRoleNames() ?? null;
+        }
 
-        switch ($role[0]) {
+        switch (@$role[0]) {
             case 'vendor':
                 $query->where('vendor_id', Auth::id());
                 break;

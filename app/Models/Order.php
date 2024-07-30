@@ -16,4 +16,11 @@ class Order extends Model
     public function customer(){
         return $this->hasOne(Customer::class,'id', 'customer_id');
     }
+    public function orderProducts(){
+        return $this->hasMany(OrderProduct::class, 'orderNumber', 'id');
+    }
+    public function orderdelivary(){
+        return $this->hasOne(DelivaryLocation::class, 'orderNumber', 'id');
+    }
+    
 }

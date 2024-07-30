@@ -10,4 +10,8 @@ class OrderProduct extends Model
 {
     use HasFactory , SoftDeletes;
     protected $guarded = [];
+
+    public function product(){
+        return $this->hasOne(Product::class , 'sku', 'productCode');
+    }
 }

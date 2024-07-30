@@ -30,13 +30,24 @@ class OrderController extends Controller
     public function showBill(Request $request)
     {
         $orderId = $request->input('order');
-        $order = Order::with(['customer'])
+        $order = Order::with(['customer', 'orderProducts'])
             ->where('id', $orderId)
-        ->first();
+            ->first();
         if (!$order) {
             abort(404, 'Order not found');
         }
         return view('admin.print.bill', ['order' => $order]);
+    }
+    public function show($orderId)
+    {
+       
+        $order = Order::with(['customer', 'orderProducts'])
+            ->where('id', $orderId)
+            ->first();
+        if (!$order) {
+            abort(404, 'Order not found');
+        }
+        return view('admin.orders.show', ['order' => $order]);
     }
     /**
      * Store a newly created resource in storage.

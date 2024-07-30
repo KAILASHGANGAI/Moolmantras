@@ -45,7 +45,7 @@
                                         <tr>
                                             <td>{{ ++$key }}</td>
 
-                                            <td>{{ $item->user_id }}</td>
+                                            <td>{{ $item->customer->name }}</td>
                                             <td>{{ $item->no_of_item }}</td>
                                             <td>{{ $item->nettotal }}</td>
                                             <td>{{ $item->payment_method }}</td>
@@ -55,16 +55,22 @@
                                             <td>
                                                 <a class="btn btn-primary btn-sm"
                                                     href="{{ url('/admin/checkout/bill?order=' . $item->id) }}">
-                                                    <i class="fas fa-folder">
+                                                    <i class="fas fa-print">
+                                                    </i>
+
+                                                </a>
+                                                <a class="btn btn-primary btn-sm"
+                                                    href="{{ route('orders.show', $item->id) }}">
+                                                    <i class="fas fa-eye">
                                                     </i>
 
                                                 </a>
 
-                                                <a class="btn btn-danger btn-sm"
+                                                <a class="btn btn-warning btn-sm"
                                                     href="{{ route('orders.destroy', $item->id) }}">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-
+                                                    {{-- <i class="fas fa-trash">
+                                                    </i> --}}
+                                                        ❌❎✅  
                                                 </a>
                                             </td>
                                         </tr>
