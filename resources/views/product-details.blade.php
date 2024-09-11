@@ -8,12 +8,12 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
-                            <img class="product__details__pic__item--large" src="{{ $product->image }}" alt="">
+                            <img class="product__details__pic__item--large" src="{{ asset($product->image) }}" alt="">
                         </div>
                         @if (count($product->images) > 0)
                             <div class="product__details__pic__slider owl-carousel">
                                 @foreach ($product->images as $item)
-                                    <img data-imgbigurl="{{ $item->image }}" src="{{ $item->image }}" alt="">
+                                    <img data-imgbigurl="{{asset( $item->image) }}" src="{{ asset($item->image) }}" alt="">
                                 @endforeach
 
                             </div>
@@ -33,15 +33,15 @@
                             <span>(18 reviews)</span>
                         </div>
                         <div class="product__details__price">Rs. {{ $product->selling_price }}</div>
-                        <div class="product__details__quantity">
+                        {{-- <div class="product__details__quantity">
                             <div class="quantity">
                                 <div class="pro-qty">
                                     <input type="text" value="1">
                                 </div>
                             </div>
-                        </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        </div> --}}
+                        <a href="{{ route('cart.add', $product->sku) }}" class="primary-btn">ADD TO CARD</a>
+                        <a href="{{ route('cart.add', $product->sku) }}" class="heart-icon"><span class="icon_heart_alt"></span></a>
                         <ul>
                             <li><b>Availability</b>
                                 @if ($product->stock_in_hand > 0)

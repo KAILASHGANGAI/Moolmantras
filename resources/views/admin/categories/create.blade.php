@@ -29,7 +29,7 @@
                             <h1>Create Category</h1>
 
                             <form action="{{ route('category.store') }}" method="POST" class="row"
-                                enctype="multipart/form-data">
+                                    >
                                 @csrf
                                 <div class="mb-3 col-sm-6">
                                     <label for="parent_category_id" class="form-label">Parent Category</label>
