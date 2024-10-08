@@ -34,7 +34,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-
+        dump($request->all());
         $validated = $request->validate([
             'category_name' => 'required|string|unique:categories',
         ]);
@@ -55,6 +55,7 @@ class CategoryController extends Controller
             // Store the file path
             $bannerPath = '/photos/categories/banner/' . $fileName;
         }
+        dd($bannerPath);
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -64,7 +65,7 @@ class CategoryController extends Controller
             // Move the file to the public/photos/products directory
             $image->move(public_path('photos/categories'), $fileName);
 
-            // Store the file path
+            // Store the file path  
             $imagePath = '/photos/categories/' . $fileName;
         }
 
