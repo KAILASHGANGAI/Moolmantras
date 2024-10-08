@@ -6,7 +6,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>Blogs         
-                        <a href="{{ route('blogs.create') }}" class="btn btn-warning">Create New Blog</a>
+                        <a href="{{ route('admin.blogs.create') }}" class="btn btn-warning">Create New Blog</a>
                     </h1>
                 </div>
                 <div class="col-sm-6">
