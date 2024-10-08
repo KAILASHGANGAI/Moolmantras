@@ -19,7 +19,7 @@ Route::group(['middleware'=>['auth', 'role:admin|SuperAdmin|vendor'],  'prefix' 
     Route::get('orders-rejected/{id}', [OrderController::class, 'reject'])->name('orders.reject');
     Route::get('orders-approve/{id}', [OrderController::class, 'approve'])->name('orders.approve');
     Route::get('/checkout/bill', [OrderController::class, 'showBill']);
-    Route::resource('blogs', BlogController::class)->names('admin.blogs');
+    Route::resource('blogs', BlogController::class)->names('blogs');
 
 }); 
 

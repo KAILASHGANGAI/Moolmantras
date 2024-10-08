@@ -6,7 +6,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>Blogs         
-                        <a href="{{ route('admin.blogs.create') }}" class="btn btn-warning">Create New Blog</a>
+                        <a href="{{ route('blogs.create') }}" class="btn btn-warning">Create New Blog</a>
                     </h1>
                 </div>
                 <div class="col-sm-6">
@@ -48,13 +48,13 @@
                                             <td>
 
                                                 <a class="btn btn-info btn-sm"
-                                                    href="{{ route('admin.blogs.edit', $item->id) }}">
+                                                    href="{{ route('blogs.edit', $item->id) }}">
                                                     <i class="fas fa-pencil-alt">
                                                     </i>
 
                                                 </a>
                                                 <form id="delete-form-{{ $item->id }}"
-                                                    action="{{ route('admin.blogs.destroy', $item->id) }}" method="POST"
+                                                    action="{{ route('blogs.destroy', $item->id) }}" method="POST"
                                                     style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
