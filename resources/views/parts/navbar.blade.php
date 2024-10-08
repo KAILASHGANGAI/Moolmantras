@@ -114,9 +114,9 @@
                         <li class="active"><a href="/">Home</a></li>
                         <li><a href="{{ route('collections') }}">Collections</a></li>
                         <li><a href="{{ route('products') }}">Products</a></li>
-                        <li><a href="./blog.html">Blog</a></li>
+                        {{-- <li><a href="./blog.html">Blog</a></li>
                         <li><a href="./blog.html">About</a></li>
-                        <li><a href="./contact.html">Contact</a></li>
+                        <li><a href="./contact.html">Contact</a></li> --}}
                     </ul>
                 </nav>
             </div>
