@@ -43,9 +43,29 @@ class CategoryController extends Controller
         if ($request->hasFile('banner')) {
             $bannerPath = $request->file('banner')->store('banners');
         }
+        if ($request->hasFile('banner')) {
+
+            $image = $request->file('banner');
+            // Generate a unique name for the file
+            $fileName = uniqid('photo_') . '.' . $image->getClientOriginalExtension();
+
+            // Move the file to the public/photos/products directory
+            $image->move(public_path('photos/categories/banner'), $fileName);
+
+            // Store the file path
+            $bannerPath = '/photos/categories/banner/' . $fileName;
+        }
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images');
+            $image = $request->file('image');
+            // Generate a unique name for the file
+            $fileName = uniqid('photo_') . '.' . $image->getClientOriginalExtension();
+
+            // Move the file to the public/photos/products directory
+            $image->move(public_path('photos/categories'), $fileName);
+
+            // Store the file path
+            $imagePath = '/photos/categories/' . $fileName;
         }
 
         Category::create([

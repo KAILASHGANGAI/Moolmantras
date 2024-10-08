@@ -74,8 +74,8 @@
                                 <tfoot>
                                     <tr>
                                         <th>S.N</th>
-
-                                        <th>blogs Name</th>
+                                        <th>Img</th>
+                                        <th>Title</th>
                                         <th>Action</th>
 
                                     </tr>
