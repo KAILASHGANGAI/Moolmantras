@@ -111,19 +111,37 @@ class CategoryController extends Controller
 
 
         // Handle file uploads
+    
         if ($request->hasFile('banner')) {
-            if ($category->banner) {
-                Storage::delete($category->banner);
-            }
-            $bannerPath = $request->file('banner')->store('banners');
+            unlink(public_path($category->banner));
+
+            $image = $request->file('banner');
+            // Generate a unique name for the file
+            $fileName = uniqid('photo_') . '.' . $image->getClientOriginalExtension();
+
+            // Move the file to the public/photos/products directory
+            $image->move(public_path('photos/categories/banner'), $fileName);
+
+            // Store the file path
+            $bannerPath = '/photos/categories/banner/' . $fileName;
         }
 
         if ($request->hasFile('image')) {
             if ($category->image) {
-                Storage::delete($category->image);
+                unlink(public_path($category->image));
             }
-            $imagePath = $request->file('image')->store('images');
+            $image = $request->file('image');
+            // Generate a unique name for the file
+            $fileName = uniqid('photo_') . '.' . $image->getClientOriginalExtension();
+
+            // Move the file to the public/photos/products directory
+            $image->move(public_path('photos/categories'), $fileName);
+
+            // Store the file path  
+            $imagePath = '/photos/categories/' . $fileName;
         }
+
+       
         $category->update([
             'parent_category_id' => $request->parent_category_id,
             'category_name' => $request->category_name,
@@ -147,5 +165,19 @@ class CategoryController extends Controller
         $category->delete();
 
         return redirect()->route('category.index')->with('success', 'Category deleted successfully');
+    }
+
+    public function uploadImages($image , $path){
+       
+        // Generate a unique name for the file
+        $fileName = uniqid('photo_') . '.' . $image->getClientOriginalExtension();
+
+        // Move the file to the public/photos/products directory
+        $image->move(public_path($path), $fileName);
+
+        // Store the file path  
+        $imagePath = $path . '/' . $fileName;
+
+        return $imagePath;
     }
 }
