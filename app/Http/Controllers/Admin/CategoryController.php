@@ -113,7 +113,9 @@ class CategoryController extends Controller
         // Handle file uploads
     
         if ($request->hasFile('banner')) {
-            unlink(public_path($category->banner));
+           if ($category->banner && File::exists(public_path($category->banner))) {
+               unlink(public_path($category->banner));
+           }
 
             $image = $request->file('banner');
             // Generate a unique name for the file
@@ -127,7 +129,7 @@ class CategoryController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            if ($category->image) {
+            if ($category->imageb && File::exists(public_path($category->image))) {
                 unlink(public_path($category->image));
             }
             $image = $request->file('image');
