@@ -40,9 +40,9 @@ class CategoryController extends Controller
         ]);
 
         // Handle file uploads
-        if ($request->hasFile('banner')) {
-            $bannerPath = $request->file('banner')->store('banners');
-        }
+        // if ($request->hasFile('banner')) {
+        //     $bannerPath = $request->file('banner')->store('banners');
+        // }
         if ($request->hasFile('banner')) {
 
             $image = $request->file('banner');
