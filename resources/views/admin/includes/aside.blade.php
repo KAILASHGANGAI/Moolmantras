@@ -105,34 +105,31 @@
                     </ul>
 
                 </li>
-                {{--  <li class="nav-item">
-                    <a href="{{ route('deposite.index') }}" class="nav-link">
+                <li class="nav-item">
+                    <a href="{{ route('blogs.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
-                            Deposite
+                            Blogs
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('deposite.index') }}" class="nav-link">
+                            <a href="{{ route('blogs.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>List Deposite</p>
+                                <p>Blogs Lista</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('deposite.create') }}" class="nav-link">
+                            <a href="{{ route('blogs.create') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>New Deposited</p>
+                                <p>New blogs</p>
                             </a>
                         </li>
 
                     </ul>
                 </li>
-                
-
-               
-                --}}
+             
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

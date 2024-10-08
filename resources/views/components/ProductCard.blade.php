@@ -20,7 +20,7 @@
 <div class="product-card">
     {{-- <div class="badge">New Product</div> --}}
     <a href="{{ route('showProduct',$id) }}" class="product-thumb">
-        <img src="{{ $img }}">
+        <img src="{{ asset($img) }}">
     </a>
     <div class="product-details">
         <span class="product-category">{{ $category }}</span>
