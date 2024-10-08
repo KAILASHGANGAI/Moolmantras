@@ -48,13 +48,13 @@
                                             <td>
 
                                                 <a class="btn btn-info btn-sm"
-                                                    href="{{ route('blogs.edit', $item->id) }}">
+                                                    href="{{ route('admin.blogs.edit', $item->id) }}">
                                                     <i class="fas fa-pencil-alt">
                                                     </i>
 
                                                 </a>
                                                 <form id="delete-form-{{ $item->id }}"
-                                                    action="{{ route('blogs.destroy', $item->id) }}" method="POST"
+                                                    action="{{ route('admin.blogs.destroy', $item->id) }}" method="POST"
                                                     style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
