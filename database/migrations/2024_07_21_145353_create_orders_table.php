@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->string('payment_method');
             $table->string('no_of_item')->default(1);
-            $table->string('subtotal')->nullable();
+            $table->string('subtotal')->nullable(); 
             $table->string('delivaryCharge')->nullable();
             $table->string('nettotal')->nullable();
             $table->date('order_date');
